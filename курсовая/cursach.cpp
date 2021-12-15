@@ -6,20 +6,6 @@
 int _stateMenu, _stateMenu2, form;
 
 
-//cout << "5 - Добавление нового студента." << endl;
-//cout << "6 - Сортировка по алфовиту." << endl;
-//cout << "7 - Сохранение в файл." << endl;
-//cout << "8 - Вывод данных в консоль." << endl;
-//cout << "9 - Изменение данных о студенте." << endl;
-//cout << "10 - Удаление группы." << endl;
-//cout << "11 - Удаление данных о студенте." << endl;
-//cout << "0 - Выход из программы." << endl;
-//cout << "----------------" << endl;
-//cout << "Ваш выбор: ";
-//cin >> _stateMenu;
-
-
-
 void Menu()
 {
 	cout << "Выберите действие:" << endl;
@@ -101,7 +87,7 @@ int SubMenu(map <int, Group>& grupp, int& amountofdata, int &gruppNum) {
 
 			if (amountofdata != 0)
 			{
-				Datachange(grupp, gruppNum);
+				StudetnChange(grupp, gruppNum);
 				DataSorting(grupp.at(gruppNum)._data, grupp.at(gruppNum).counter);
 			}
 
@@ -195,6 +181,83 @@ int SubMenu(map <int, Group>& grupp, int& amountofdata, int &gruppNum) {
 //		cout << "____________________________ " << endl;
 //}
 
+//void AddData(map <int, Group>& d, int& m) {
+//	
+//	
+//	int gruppNum;
+//	string answer;
+//	cout << "Введите номер группы" << endl;
+//	PrintGroup(d);
+//	cin >> gruppNum;
+//
+//
+//	while (d.find(gruppNum) == d.end()) {
+//		cout << "Такой группы нету!" << endl;
+//		cout << "Create new?(yes,no)" << endl;
+//		cin >> answer;
+//		if (answer == "yes") {
+//			AddNewGroup(d, gruppNum);
+//			break;
+//		}
+//		system("cls");
+//
+//		cout << "Введите номер группы" << endl;
+//		PrintGroup(d);
+//		cin >> gruppNum;
+//
+//	}
+//	
+//	
+//
+//	Data* buf = new Data[d.at(gruppNum).counter + 1];
+//
+//	Copy(buf, d.at(gruppNum)._data, d.at(gruppNum).counter);
+//
+//
+//	cout << "Введите ФИО студента: ";
+//	cin >> buf[d.at(gruppNum).counter]._FIO.familiy;
+//	cin >> buf[d.at(gruppNum).counter]._FIO.imy;
+//	cin >> buf[d.at(gruppNum).counter]._FIO.otchestvo;
+//
+//	cout << "Введите оценки студента за последнюю сессию: ";
+//	cin >> buf[d.at(gruppNum).counter]._Date.AiG;
+//	cin >> buf[d.at(gruppNum).counter]._Date.programmer;
+//	cin >> buf[d.at(gruppNum).counter]._Date.math;
+//	cin >> buf[d.at(gruppNum).counter]._Date.history;
+//	cin >> buf[d.at(gruppNum).counter]._Date.english;
+//
+//	cout << "Введите форму обучения студента студента: ";
+//	cin >> buf[d.at(gruppNum).counter]._Forma.budget;
+//
+//
+//
+//	if (buf[d.at(gruppNum).counter]._Forma.budget == 'b') {
+//		//бюджет
+//
+//		cout << "Введите размер стипендии: ";
+//		cin >> buf[d.at(gruppNum).counter]._Stipendiy.summastipendii;
+//	}
+//
+//	else {
+//		//контракт
+//
+//		cout << "Введите размер оплаты образования: ";
+//		cin >> buf[d.at(gruppNum).counter]._Oplata.summaoplati;
+//	}
+//
+//
+//
+//
+//	delete[] d.at(gruppNum)._data;
+//	d.at(gruppNum)._data = buf;
+//
+//	d.at(gruppNum).counter++;
+//	m++;
+//
+//	system("cls");	
+//	cout << "Данные добавлены! " << endl;
+//}
+
 
 void ReadingData(map <int, Group> &grupp, int& n, string filename)
 {
@@ -254,14 +317,14 @@ void ReadingData(map <int, Group> &grupp, int& n, string filename)
 }
 
 
-void Print(map <int, Group>& d, int &n)
+void PrintAllInfo(map <int, Group>& d, int &n)
 {
 	map<int, Group>::iterator j;
 	for (j = d.begin(); j != d.end(); j++) {
 
 		cout << "-------------------- " << endl;
 				
-		cout << "|Group Number: " << j->first << "|" << endl;
+		cout << "|Номер Группы: " << j->first << "|" << endl;
 		cout << "--------------------" << endl;
 		DataSorting(j->second._data, j->second.counter);
 		for (int i = 0; i < j->second.counter; i++) {
@@ -307,7 +370,7 @@ void PrintStudents(map <int, Group>& d, int& n, int& gruppNum)
 
 		for (int i = 0; i < d.at(gruppNum).counter; i++) {
 
-			cout << "Данные №" << i + 1 << ":" << endl;
+			cout << "Студент №" << i + 1 << ":" << endl;
 
 			cout << "ФИО: " << d.at(gruppNum)._data[i]._FIO.familiy << " " << d.at(gruppNum)._data[i]._FIO.imy << " " << d.at(gruppNum)._data[i]._FIO.otchestvo << " " << endl;
 
@@ -342,14 +405,7 @@ void PrintStudents(map <int, Group>& d, int& n, int& gruppNum)
 }
 
 
-void Datachange(map <int, Group>& d, int& gruppNum) {
-
-	//int gruppNum;
-	//cout << "Введите номер группы" << endl;
-	//PrintGroup(d);
-	//cin >> gruppNum;
-	//system("cls");
-
+void StudetnChange(map <int, Group>& d, int& gruppNum) {
 
 	int _n;
 	cout << "Введите номер студента (от 1 до " << d.at(gruppNum).counter << "):";
@@ -440,96 +496,6 @@ void DeletStudet(map <int, Group>& d, int& m, int& gruppNum) {
 	}
 
 	else cout << "Номер введён неверно!" << endl;
-}
-
-
-void AddData(map <int, Group>& d, int& m) {
-	
-	
-	int gruppNum;
-	string answer;
-	cout << "Введите номер группы" << endl;
-	PrintGroup(d);
-	cin >> gruppNum;
-
-
-	while (d.find(gruppNum) == d.end()) {
-		cout << "Такой группы нету!" << endl;
-		cout << "Create new?(yes,no)" << endl;
-		cin >> answer;
-		if (answer == "yes") {
-			AddNewGroup(d, gruppNum);
-			break;
-		}
-		system("cls");
-
-		cout << "Введите номер группы" << endl;
-		PrintGroup(d);
-		cin >> gruppNum;
-
-	}
-	
-	
-
-	Data* buf = new Data[d.at(gruppNum).counter + 1];
-
-	Copy(buf, d.at(gruppNum)._data, d.at(gruppNum).counter);
-
-	//cout << "Введите ФИО студента: ";
-	//cin >> d[n]._FIO.familiy >>  d[n]._FIO.imy >> d[n]._FIO.otchestvo;
-
-	//cout << "Введите оценки студента за последнюю сессию: ";
-
-	//cin >> d[n]._Date.AiG >> d[n]._Date.programmer >> d[n]._Date.math >> d[n]._Date.history >> d[n]._Date.english;
-
-	//cout << "Введите форму обучения студента студента: ";
-	//cin >> d[n]._Forma.budget;
-
-
-
-
-	cout << "Введите ФИО студента: ";
-	cin >> buf[d.at(gruppNum).counter]._FIO.familiy;
-	cin >> buf[d.at(gruppNum).counter]._FIO.imy;
-	cin >> buf[d.at(gruppNum).counter]._FIO.otchestvo;
-
-	cout << "Введите оценки студента за последнюю сессию: ";
-	cin >> buf[d.at(gruppNum).counter]._Date.AiG;
-	cin >> buf[d.at(gruppNum).counter]._Date.programmer;
-	cin >> buf[d.at(gruppNum).counter]._Date.math;
-	cin >> buf[d.at(gruppNum).counter]._Date.history;
-	cin >> buf[d.at(gruppNum).counter]._Date.english;
-
-	cout << "Введите форму обучения студента студента: ";
-	cin >> buf[d.at(gruppNum).counter]._Forma.budget;
-
-
-
-	if (buf[d.at(gruppNum).counter]._Forma.budget == 'b') {
-		//бюджет
-
-		cout << "Введите размер стипендии: ";
-		cin >> buf[d.at(gruppNum).counter]._Stipendiy.summastipendii;
-	}
-
-	else {
-		//контракт
-
-		cout << "Введите размер оплаты образования: ";
-		cin >> buf[d.at(gruppNum).counter]._Oplata.summaoplati;
-	}
-
-
-
-
-	delete[] d.at(gruppNum)._data;
-	d.at(gruppNum)._data = buf;
-
-	d.at(gruppNum).counter++;
-	m++;
-
-	system("cls");	
-	cout << "Данные добавлены! " << endl;
 }
 
 
@@ -707,7 +673,7 @@ void PrintGroup(map <int, Group>& d) {
 
 	map<int, Group>::iterator j;
 	for (j = d.begin(); j != d.end(); j++) {
-		cout << "Group Number: " << j->first << "(" << j->second.counter << ")" << endl;
+		cout << "Номер Группы: " << j->first << "(" << j->second.counter << ")" << endl;
 	}
 	
 }
@@ -719,9 +685,10 @@ void PrintGroup(map <int, Group>& d) {
 int main()
 {
 
-    setlocale(LC_CTYPE, "");
-	SetConsoleCP(1251);
-	SetConsoleOutputCP(1251);
+	setlocale(LC_ALL, "");
+
+	//SetConsoleCP(1251);
+	//SetConsoleOutputCP(1251);
     Menu();
 
 	map <int, Group> grupp;
@@ -857,12 +824,7 @@ int main()
 
 			system("cls");
 
-			//if (amountofdata != 0)
-			//{
-				Savingdata(grupp, amountofdata, "C:\\Users\\Alexey\\source\\repos\\курсовая\\students2.txt");
-			//}
-			//else
-				//cout << "Данные пусты!" << endl;
+			Savingdata(grupp, amountofdata, "C:\\Users\\Alexey\\source\\repos\\курсовая\\students2.txt");
 
 
 			system("pause");
@@ -877,7 +839,7 @@ int main()
 
 			if (amountofdata != 0)
 			{
-				Print(grupp, amountofdata);
+				PrintAllInfo(grupp, amountofdata);
 			}
 
 			else

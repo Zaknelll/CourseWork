@@ -55,12 +55,6 @@ struct Data
 	Stipendiy _Stipendiy;
 };
 
-//структура данных связи студентов
-struct Svysstud
-{
-	Data data;
-	Svysstud* next;
-};
 
 //структура данных группы
 struct Group
@@ -73,18 +67,20 @@ struct Group
 
 //функции
 //void DataEntery(Data *&d, int& n);
+//void AddData(map <int, Group>& d, int& m);
+
 void ReadingData(map <int, Group>& grupp, int& n, string filename);
-void Print(map <int, Group>& d, int &n);
-void PrintStudents(map <int, Group>& d, int& n, int& gruppNum);
-void Datachange(map <int, Group>& d, int& gruppNum);
-void Copy(Data*& d_n, Data*& d_o, int n);// копирование всего массива
-void DeletStudet(map <int, Group>& d, int& m, int& gruppNum);
-void AddData(map <int, Group>& d, int& m);
-void DataSorting(Data *&d, int& n);
-void Savingdata(map <int, Group>& d, int n, string filename);
 void PrintGroup(map <int, Group>& d);
-void AddNewGroup(map <int, Group>& d, int &groupNum);
-void AddToGroup(Data*& d, Data& newStudent, int& n);
-void DeleteGroup(map <int, Group>& d);
+void AddNewGroup(map <int, Group>& d, int& groupNum);
+void PrintStudents(map <int, Group>& d, int& n, int& gruppNum);
 void AddNewStudent(map <int, Group>& d, int& m, int& gruppNum);
+void DataSorting(Data*& d, int& n);
+void StudetnChange(map <int, Group>& d, int& gruppNum);
+void DeletStudet(map <int, Group>& d, int& m, int& gruppNum);
+void DeleteGroup(map <int, Group>& d);
+void Savingdata(map <int, Group>& d, int n, string filename);
+void PrintAllInfo(map <int, Group>& d, int &n);
+
+void Copy(Data*& d_n, Data*& d_o, int n);
+void AddToGroup(Data*& d, Data& newStudent, int& n);
 // TODO: установите здесь ссылки на дополнительные заголовки, требующиеся для программы.

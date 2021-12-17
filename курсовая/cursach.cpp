@@ -268,6 +268,7 @@ void ReadingData(map <int, Group> &grupp, int& n, string filename)
 	{
 		reading >> n;
 		Data newStudent;
+		boolean invFlag = 0;
 		/*d = (Data*)realloc(d, sizeof(Data) * n);*/
 
 		for (int i = 0; i < n; i++) {
@@ -277,11 +278,15 @@ void ReadingData(map <int, Group> &grupp, int& n, string filename)
 			reading >> newStudent._FIO.imy;
 			reading >> newStudent._FIO.otchestvo;
 
-			reading >> newStudent._Date.AiG;
-			reading >> newStudent._Date.programmer;
-			reading >> newStudent._Date.math;
-			reading >> newStudent._Date.history;
-			reading >> newStudent._Date.english;
+
+			for (int i = 0; i < 5; i++)
+			{
+				reading >> newStudent._Date.marks[i];
+				if (newStudent._Date.marks[i] > 6 || newStudent._Date.marks[i] <= 0) {
+					cout << "Неправильные данные у студента: " << newStudent._FIO.familiy << endl;
+					invFlag = 1;
+				}
+			}				
 
 
 			reading >> newStudent._Forma.budget;
@@ -291,9 +296,27 @@ void ReadingData(map <int, Group> &grupp, int& n, string filename)
 				//бюджет
 				reading >> newStudent._Stipendiy.summastipendii;
 			}
-			else {
+			else if (newStudent._Forma.budget == 'k') {
 				//контракт
 				reading >> newStudent._Oplata.summaoplati;
+			} else {
+				cout << "Неправильные данные у студента: " << newStudent._FIO.familiy << endl;
+				invFlag = 1;
+			}
+
+			if (invFlag) {
+				string line;
+				getline(reading, line);
+				getline(reading, line);
+				reading.clear();
+				while (!line.empty()) {
+					getline(reading, line);
+					reading.clear();
+				}
+					
+				invFlag = 0;
+				newStudent = Data();
+				continue;
 			}
 
 			if (grupp.find(groupnum) == grupp.end()) {
@@ -304,6 +327,7 @@ void ReadingData(map <int, Group> &grupp, int& n, string filename)
 				AddToGroup(grupp.at(groupnum)._data, newStudent, grupp.at(groupnum).counter);
 				grupp.at(groupnum).counter++;
 			}
+
 		}
 		
 			
@@ -320,63 +344,80 @@ void ReadingData(map <int, Group> &grupp, int& n, string filename)
 void PrintAllInfo(map <int, Group>& d, int &n)
 {
 	map<int, Group>::iterator j;
-	for (j = d.begin(); j != d.end(); j++) {
+		for (j = d.begin(); j != d.end(); j++) {
 
-		cout << "-------------------- " << endl;
-				
-		cout << "|Номер Группы: " << j->first << "|" << endl;
-		cout << "--------------------" << endl;
-		DataSorting(j->second._data, j->second.counter);
-		for (int i = 0; i < j->second.counter; i++) {
+			cout << "-------------------- " << endl;
 
-			cout << "	Данные №" << i + 1 << ":" << endl;
+			cout << "|Номер Группы: " << j->first << "|" << endl;
+			cout << "--------------------" << endl;
 
-			cout << "	ФИО: " << j->second._data[i]._FIO.familiy << " " << j->second._data[i]._FIO.imy << " " << j->second._data[i]._FIO.otchestvo << " " << endl;
-
-			cout << "	Оценки: " << j->second._data[i]._Date.AiG << " " << j->second._data[i]._Date.programmer << " " << j->second._data[i]._Date.math << " " << j->second._data[i]._Date.history << " " << j->second._data[i]._Date.english << endl;
-
-			cout << "	Форма обучения: " << j->second._data[i]._Forma.budget << endl;
-
-
-			switch (j->second._data[i]._Forma.budget) {
-			case 'b':
-				cout << "	Стипендия: " << j->second._data[i]._Stipendiy.summastipendii << endl;
-
-				break;
-			case 'k':
-				cout << "	Оплата: " << j->second._data[i]._Oplata.summaoplati << endl;
-				break;
-			default:
-				cout << "Неверное значение формы обучения у студента " << j->second._data[i]._FIO.familiy << " " << j->second._data[i]._FIO.imy << " " << j->second._data[i]._FIO.otchestvo << " " << endl;
-				cin.get();
-				system("pause");
-				system("cls");
-				Menu();
-				break;
+			if (j->second.counter == 0) {
+				cout << "В этой группе ещё нет студентов!" << endl << endl;
 			}
+			else {
+				DataSorting(j->second._data, j->second.counter);
+				for (int i = 0; i < j->second.counter; i++) {
 
-			cout << "	____________________________ " << endl;
+					cout << "	Данные №" << i + 1 << ":" << endl;
 
+					cout << "	ФИО: " << j->second._data[i]._FIO.familiy << " " << j->second._data[i]._FIO.imy << " " << j->second._data[i]._FIO.otchestvo << " " << endl;
+
+					cout << "	Оценки: " << endl << "	" << j->second._data[i]._Date.marks[0];
+
+					for (int mark = 1; mark < 5; mark++)
+					{
+						cout << ", " << j->second._data[i]._Date.marks[mark];
+					}
+
+					cout << endl <<  "	Форма обучения: " << j->second._data[i]._Forma.budget << endl;
+
+
+					switch (j->second._data[i]._Forma.budget) {
+					case 'b':
+						cout << "	Стипендия: " << j->second._data[i]._Stipendiy.summastipendii << endl;
+
+						break;
+					case 'k':
+						cout << "	Оплата: " << j->second._data[i]._Oplata.summaoplati << endl;
+						break;
+					default:
+						cout << "Неверное значение формы обучения у студента " << j->second._data[i]._FIO.familiy << " " << j->second._data[i]._FIO.imy << " " << j->second._data[i]._FIO.otchestvo << " " << endl;
+						cin.get();
+						system("pause");
+						system("cls");
+						Menu();
+						break;
+					}
+
+					cout << "	____________________________ " << endl;
+
+				}
+
+			}
 		}
-
-
-	}
 }
 
 
 void PrintStudents(map <int, Group>& d, int& n, int& gruppNum)
 {
 
-
+	if (d.at(gruppNum).counter != 0) {
 		for (int i = 0; i < d.at(gruppNum).counter; i++) {
 
 			cout << "Студент №" << i + 1 << ":" << endl;
 
 			cout << "ФИО: " << d.at(gruppNum)._data[i]._FIO.familiy << " " << d.at(gruppNum)._data[i]._FIO.imy << " " << d.at(gruppNum)._data[i]._FIO.otchestvo << " " << endl;
 
-			cout << "Оценки: " << d.at(gruppNum)._data[i]._Date.AiG << " " << d.at(gruppNum)._data[i]._Date.programmer << " " << d.at(gruppNum)._data[i]._Date.math << " " << d.at(gruppNum)._data[i]._Date.history << " " << d.at(gruppNum)._data[i]._Date.english << endl;
 
-			cout << "Форма обучения: " << d.at(gruppNum)._data[i]._Forma.budget << endl;
+			cout << "Оценки: " << d.at(gruppNum)._data[i]._Date.marks[0];
+
+			for (int mark = 1; mark < 5; mark++)
+			{
+				cout << ", " << d.at(gruppNum)._data[i]._Date.marks[mark];
+			}
+
+
+			cout << endl << "Форма обучения: " << d.at(gruppNum)._data[i]._Forma.budget << endl;
 
 
 			switch (d.at(gruppNum)._data[i]._Forma.budget) {
@@ -399,8 +440,8 @@ void PrintStudents(map <int, Group>& d, int& n, int& gruppNum)
 			cout << "____________________________ " << endl;
 
 		}
-
-
+	}
+	else cout << "В группе нету ни одного студента! " << endl;
 
 }
 
@@ -421,26 +462,34 @@ void StudetnChange(map <int, Group>& d, int& gruppNum) {
 		cin >> d.at(gruppNum)._data[_n]._FIO.otchestvo;
 
 		cout << "Введите оценки студента за последнюю сессию: ";
-		cin >> d.at(gruppNum)._data[_n]._Date.AiG;
-		cin >> d.at(gruppNum)._data[_n]._Date.programmer;
-		cin >> d.at(gruppNum)._data[_n]._Date.math;
-		cin >> d.at(gruppNum)._data[_n]._Date.history;
-		cin >> d.at(gruppNum)._data[_n]._Date.english;
+
+		for (int i = 0; i < 5; i++)
+		{
+			cin >> d.at(gruppNum)._data[_n]._Date.marks[i];
+			while (d.at(gruppNum)._data[_n]._Date.marks[i] > 6 || d.at(gruppNum)._data[_n]._Date.marks[i] <= 0) {
+				cout << "Неправильные формат оценки" << endl;
+				cin >> d.at(gruppNum)._data[_n]._Date.marks[i];
+			}
+		}
 
 		cout << "Введите форму обучения студента студента: ";
 		cin >> d.at(gruppNum)._data[_n]._Forma.budget;
 
+		while (d.at(gruppNum)._data[_n]._Forma.budget != 'k' && d.at(gruppNum)._data[_n]._Forma.budget != 'b') {
+			cout << "Такой формы обучения нету! " << endl;
+			cout << "Введите корректную форму обучения студента (k-контракт или b-бюджет): " << endl;
+			cin >> d.at(gruppNum)._data[_n]._Forma.budget;
+		}
+
 		if (d.at(gruppNum)._data[_n]._Forma.budget == 'b') {
 			//бюджет
-
 			cout << "Введите размер стипендии: ";
 			cin >> d.at(gruppNum)._data[_n]._Stipendiy.summastipendii;
 		}
-
-		else {
+		if (d.at(gruppNum)._data[_n]._Forma.budget == 'k') {
 			//контракт
-
 			cout << "Введите размер оплаты образования: ";
+
 			cin >> d.at(gruppNum)._data[_n]._Oplata.summaoplati;
 		}
 
@@ -502,7 +551,7 @@ void DeletStudet(map <int, Group>& d, int& m, int& gruppNum) {
 void AddNewStudent(map <int, Group>& d, int& m, int& gruppNum) {
 
 
-	
+
 	Data* buf = new Data[d.at(gruppNum).counter + 1];
 
 	Copy(buf, d.at(gruppNum)._data, d.at(gruppNum).counter);
@@ -514,32 +563,40 @@ void AddNewStudent(map <int, Group>& d, int& m, int& gruppNum) {
 	cin >> buf[d.at(gruppNum).counter]._FIO.otchestvo;
 
 	cout << "Введите оценки студента за последнюю сессию: ";
-	cin >> buf[d.at(gruppNum).counter]._Date.AiG;
-	cin >> buf[d.at(gruppNum).counter]._Date.programmer;
-	cin >> buf[d.at(gruppNum).counter]._Date.math;
-	cin >> buf[d.at(gruppNum).counter]._Date.history;
-	cin >> buf[d.at(gruppNum).counter]._Date.english;
+	//if (buf[d.at(gruppNum).counter]._Date.AiG < 6 && buf[d.at(gruppNum).counter]._Date.AiG>0) {
 
-	cout << "Введите форму обучения студента студента: ";
+	for (int i = 0; i < 5; i++)
+	{
+		cin >> buf[d.at(gruppNum).counter]._Date.marks[i];
+		while (buf[d.at(gruppNum).counter]._Date.marks[i] > 6 || buf[d.at(gruppNum).counter]._Date.marks[i] <= 0) {
+			cout << "Неправильные формат оценки" << endl;
+			cin >> buf[d.at(gruppNum).counter]._Date.marks[i];
+		}
+	}
+
+	cout << "Введите форму обучения студента студента (k-контракт или b-бюджет): ";
 	cin >> buf[d.at(gruppNum).counter]._Forma.budget;
 
 
-
-	if (buf[d.at(gruppNum).counter]._Forma.budget == 'b') {
-		//бюджет
-
-		cout << "Введите размер стипендии: ";
-		cin >> buf[d.at(gruppNum).counter]._Stipendiy.summastipendii;
+	while (buf[d.at(gruppNum).counter]._Forma.budget != 'k' && buf[d.at(gruppNum).counter]._Forma.budget != 'b') {
+		cout << "Такой формы обучения нету! " << endl;
+		cout << "Введите корректную форму обучения студента (k-контракт или b-бюджет): " << endl;
+		cin >> buf[d.at(gruppNum).counter]._Forma.budget;
 	}
 
-	else {
-		//контракт
+		if (buf[d.at(gruppNum).counter]._Forma.budget == 'b') {
+			//бюджет
 
-		cout << "Введите размер оплаты образования: ";
-		cin >> buf[d.at(gruppNum).counter]._Oplata.summaoplati;
-	}
+			cout << "Введите размер стипендии: ";
+			cin >> buf[d.at(gruppNum).counter]._Stipendiy.summastipendii;
+		}
 
+		else {
+			//контракт
 
+			cout << "Введите размер оплаты образования: ";
+			cin >> buf[d.at(gruppNum).counter]._Oplata.summaoplati;
+		}
 
 
 	delete[] d.at(gruppNum)._data;
@@ -626,11 +683,11 @@ void Savingdata(map <int, Group>& d, int n, string filename) {
 				record << j->second._data[i]._FIO.imy << endl;
 				record << j->second._data[i]._FIO.otchestvo << endl;
 
-				record << j->second._data[i]._Date.AiG << endl;
-				record << j->second._data[i]._Date.programmer << endl;
-				record << j->second._data[i]._Date.math << endl;
-				record << j->second._data[i]._Date.history << endl;
-				record << j->second._data[i]._Date.english << endl;
+				for (int mark = 0; mark < 5; mark++)
+				{
+					record << j->second._data[i]._Date.marks[mark] << endl;
+
+				}
 
 				record << j->second._data[i]._Forma.budget << endl;
 
@@ -750,8 +807,30 @@ int main()
 				int groupNum;
 				cout << "Введите номер новой группы: " << endl;
 				cin >> groupNum;
-				AddNewGroup(grupp, groupNum);
-			
+
+				if (groupNum > 0 && groupNum < 10000) {
+					AddNewGroup(grupp, groupNum);
+					cout << "Новая группа была создана! " << endl;
+				}
+
+
+				while (groupNum < 0 || groupNum > 10000) {
+					cout << "Номер группы введён некорректно!" << endl;
+					cout << "Ввести заново? (yes,no)" << endl << endl;
+
+					cin >> answer;
+					if (answer == "yes") {
+						system("cls");
+						cout << "Введите номер новой группы: " << endl;
+						cin >> groupNum;
+						if (groupNum > 0 && groupNum < 10000) {
+							AddNewGroup(grupp, groupNum);
+							cout << "Новая группа была создана! " << endl;
+						}						
+					}
+					else goto ExitMenu;
+				}
+					
 			system("pause");
 			system("cls");
 			Menu();
@@ -766,7 +845,12 @@ int main()
 			cout << "Введите номер группы" << endl;
 			PrintGroup(grupp);
 			cin >> gruppNum;
-					system("cls");
+			system("cls");
+
+			if (!grupp.empty())
+			{
+				SubMenu(grupp, amountofdata, gruppNum);
+			}
 
 					while (grupp.find(gruppNum) == grupp.end()) {
 
@@ -774,25 +858,44 @@ int main()
 						cout << "Создаём новую группу? (yes,no)" << endl << endl;
 						
 						cin >> answer;
+
 						if (answer == "yes") {
-							AddNewGroup(grupp, gruppNum);
-							system("cls");
-							SubMenu(grupp, amountofdata, gruppNum);
-							goto ExitMenu;
+
+							if (gruppNum > 0 && gruppNum < 10000) {
+								AddNewGroup(grupp, gruppNum);
+								cout << "Новая группа была создана! " << endl;
+								system("cls");
+								SubMenu(grupp, amountofdata, gruppNum);
+							}
+
+
+							while (gruppNum < 0 || gruppNum > 10000) {
+								system("cls");
+								cout << "Номер группы введён некорректно!" << endl;
+								cout << "Ввести заново? (yes,no)" << endl << endl;
+
+								cin >> answer;
+								if (answer == "yes") {
+									system("cls");
+									cout << "Введите номер новой группы: " << endl;
+									cin >> gruppNum;
+									if (gruppNum > 0 && gruppNum < 10000) {
+										AddNewGroup(grupp, gruppNum);
+										cout << "Новая группа была создана! " << endl;
+									}
+									system("cls");
+
+								}
+							}
 						}
+						
 						else {
-							system("pause");
-							system("cls");
-							Menu();
 							goto ExitMenu;
 						}					
 					}
 
 
-					if (!grupp.empty())
-					{
-						SubMenu(grupp, amountofdata, gruppNum);
-					}
+
 					
 				ExitMenu:
 					system("pause");
@@ -837,7 +940,7 @@ int main()
 
 			system("cls");
 
-			if (amountofdata != 0)
+			if (!grupp.empty())
 			{
 				PrintAllInfo(grupp, amountofdata);
 			}

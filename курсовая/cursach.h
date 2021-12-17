@@ -24,7 +24,7 @@ struct FIO
 //структура оценок студента
 struct Date
 {
-	float AiG, programmer, math, history , english;
+	float marks[5];
 };
 
 //структура форма обучения

@@ -231,9 +231,9 @@ void BinaryReadingData(map <int, Group>& grupp, int& n, string filename) {
 
 	int groupnum;
 	string answer;
-	ifstream rf(filename, ios::in | ios::binary);
+	ifstream reading(filename, ios::in | ios::binary);
 
-	while (!rf.is_open())
+	while (!reading.is_open())
 	{
 		system("cls");
 		cout << "Не удалось открыть файл!" << endl;
@@ -244,14 +244,14 @@ void BinaryReadingData(map <int, Group>& grupp, int& n, string filename) {
 			system("cls");
 			cout << "Введите название файла: ";
 			cin >> filename;
-			rf.open(filename);
+			reading.open(filename);
 		}
 		break;
 	}
 
-	if (rf)
+	if (reading)
 	{
-		rf >> n;
+		reading >> n;
 		Data newStudent;
 		boolean invFlag = 0;
 
@@ -259,31 +259,31 @@ void BinaryReadingData(map <int, Group>& grupp, int& n, string filename) {
 
 		for (int i = 0; i < n; i++) {
 
-			rf >> groupnum;
-			rf >> newStudent._FIO.familiy;
-			rf >> newStudent._FIO.imy;
-			rf >> newStudent._FIO.otchestvo;
+			reading >> groupnum;
+			reading >> newStudent._FIO.familiy;
+			reading >> newStudent._FIO.imy;
+			reading >> newStudent._FIO.otchestvo;
 
 
 			for (int i = 0; i < 5; i++)
 			{
-				rf >> newStudent._Date.marks[i];
+				reading >> newStudent._Date.marks[i];
 				if (newStudent._Date.marks[i] > 6 || newStudent._Date.marks[i] <= 0) {
 					cout << "Неправильные данные у студента: " << newStudent._FIO.familiy << endl;
 					invFlag = 1;
 				}
 			}
 
-			rf >> newStudent._Forma.budget;
+			reading >> newStudent._Forma.budget;
 
 
 			if (newStudent._Forma.budget == 'b') {
 				//бюджет
-				rf >> newStudent._Stipendiy.summastipendii;
+				reading >> newStudent._Stipendiy.summastipendii;
 			}
 			else if (newStudent._Forma.budget == 'k') {
 				//контракт
-				rf >> newStudent._Oplata.summaoplati;
+				reading >> newStudent._Oplata.summaoplati;
 			}
 			else {
 				cout << "Неправильные данные у студента: " << newStudent._FIO.familiy << endl;
@@ -292,12 +292,12 @@ void BinaryReadingData(map <int, Group>& grupp, int& n, string filename) {
 
 			if (invFlag) {
 				string line;
-				getline(rf, line);
-				getline(rf, line);
-				rf.clear();
+				getline(reading, line);
+				getline(reading, line);
+				reading.clear();
 				while (!line.empty()) {
-					getline(rf, line);
-					rf.clear();
+					getline(reading, line);
+					reading.clear();
 				}
 
 				invFlag = 0;
@@ -320,7 +320,7 @@ void BinaryReadingData(map <int, Group>& grupp, int& n, string filename) {
 		cout << "Данные считаны! " << endl;
 	}
 
-	rf.close();
+	reading.close();
 }
 
 

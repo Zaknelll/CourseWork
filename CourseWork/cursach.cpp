@@ -69,8 +69,6 @@ int SubMenu(map <int, Group>& grupp, int& amountofdata, int &gruppNum) {
 
 			system("cls");
 
-
-
 				AddNewStudent(grupp, amountofdata, gruppNum);
 				DataSorting(grupp.at(gruppNum)._data, grupp.at(gruppNum).counter);
 			
@@ -103,7 +101,6 @@ int SubMenu(map <int, Group>& grupp, int& amountofdata, int &gruppNum) {
 
 			system("cls");
 
-
 			if (amountofdata != 0)
 			{
 				DeletStudet(grupp, amountofdata, gruppNum);
@@ -131,144 +128,35 @@ int SubMenu(map <int, Group>& grupp, int& amountofdata, int &gruppNum) {
 
 
 
-//void DataEntery(Data *&d, int& n)
-//{
-//	cout << "Введите количество студентов: ";
-//	cin >> n;
-//	d = (Data*)realloc(d, sizeof(Data) * n);
-//
-//	int _actions;
-//	for (int i = 0; i < n; i++)
-//	{
-//		cout << "Введите ФИО студента: ";
-//		cin >> d[i]._FIO.familiy;
-//		cin >> d[i]._FIO.imy;
-//		cin >> d[i]._FIO.otchestvo;
-//
-//		cout << "Введите оценки студента за последнюю сессию: ";
-//		cin >> d[i]._Date.AiG;
-//		cin >> d[i]._Date.programmer;
-//		cin >> d[i]._Date.math;
-//		cin >> d[i]._Date.history;
-//		cin >> d[i]._Date.english;
-//
-//		//cout << "Введите форму обучения студента студента: ";
-//		//cin >> d[i]._Forma.budget;
-//
-//		cout << "Форма обучения контракт или бюджет? Введите k, если контракт или b, если бюджет: ";
-//
-//		cin >> d[i]._Forma.budget;
-//		_actions = d[i]._Forma.budget;
-//
-//		for (int i = 0; i < n; i++) {
-//
-//			if (_actions ==  'b') {
-//				//бюджет
-//
-//				cout << "Введите размер стипендии: ";
-//				cin >> d[i]._Stipendiy.summastipendii;
-//			}
-//
-//			else {
-//				//контракт
-//
-//				cout << "Введите размер оплаты образования: ";
-//				cin >> d[i]._Oplata.summaoplati;
-//			}
-//
-//		}
-//	}
-//		cout << "____________________________ " << endl;
-//}
-
-//void AddData(map <int, Group>& d, int& m) {
-//	
-//	
-//	int gruppNum;
-//	string answer;
-//	cout << "Введите номер группы" << endl;
-//	PrintGroup(d);
-//	cin >> gruppNum;
-//
-//
-//	while (d.find(gruppNum) == d.end()) {
-//		cout << "Такой группы нету!" << endl;
-//		cout << "Create new?(yes,no)" << endl;
-//		cin >> answer;
-//		if (answer == "yes") {
-//			AddNewGroup(d, gruppNum);
-//			break;
-//		}
-//		system("cls");
-//
-//		cout << "Введите номер группы" << endl;
-//		PrintGroup(d);
-//		cin >> gruppNum;
-//
-//	}
-//	
-//	
-//
-//	Data* buf = new Data[d.at(gruppNum).counter + 1];
-//
-//	Copy(buf, d.at(gruppNum)._data, d.at(gruppNum).counter);
-//
-//
-//	cout << "Введите ФИО студента: ";
-//	cin >> buf[d.at(gruppNum).counter]._FIO.familiy;
-//	cin >> buf[d.at(gruppNum).counter]._FIO.imy;
-//	cin >> buf[d.at(gruppNum).counter]._FIO.otchestvo;
-//
-//	cout << "Введите оценки студента за последнюю сессию: ";
-//	cin >> buf[d.at(gruppNum).counter]._Date.AiG;
-//	cin >> buf[d.at(gruppNum).counter]._Date.programmer;
-//	cin >> buf[d.at(gruppNum).counter]._Date.math;
-//	cin >> buf[d.at(gruppNum).counter]._Date.history;
-//	cin >> buf[d.at(gruppNum).counter]._Date.english;
-//
-//	cout << "Введите форму обучения студента студента: ";
-//	cin >> buf[d.at(gruppNum).counter]._Forma.budget;
-//
-//
-//
-//	if (buf[d.at(gruppNum).counter]._Forma.budget == 'b') {
-//		//бюджет
-//
-//		cout << "Введите размер стипендии: ";
-//		cin >> buf[d.at(gruppNum).counter]._Stipendiy.summastipendii;
-//	}
-//
-//	else {
-//		//контракт
-//
-//		cout << "Введите размер оплаты образования: ";
-//		cin >> buf[d.at(gruppNum).counter]._Oplata.summaoplati;
-//	}
-//
-//
-//
-//
-//	delete[] d.at(gruppNum)._data;
-//	d.at(gruppNum)._data = buf;
-//
-//	d.at(gruppNum).counter++;
-//	m++;
-//
-//	system("cls");	
-//	cout << "Данные добавлены! " << endl;
-//}
-
 
 void ReadingData(map <int, Group> &grupp, int& n, string filename)
 {
 	int groupnum;
+	string answer;
 	ifstream reading(filename);
+
+	while (!reading.is_open())
+	{
+		system("cls");
+		cout << "Не удалось открыть файл!" << endl;
+		cout << "Ввести файл зайново? (yes,no)" << endl << endl;
+
+		cin >> answer;
+		if (answer == "yes") {
+			system("cls");
+			cout << "Введите название файла: ";
+			cin >> filename;
+			reading.open(filename);
+		}
+		break;
+	}
 
 	if (reading)
 	{
 		reading >> n;
 		Data newStudent;
 		boolean invFlag = 0;
+
 		/*d = (Data*)realloc(d, sizeof(Data) * n);*/
 
 		for (int i = 0; i < n; i++) {
@@ -334,10 +222,105 @@ void ReadingData(map <int, Group> &grupp, int& n, string filename)
 		cout << "Данные считаны! " << endl;
 	}
 
-	else
-		cout << "Ошибка открытия файла!" << endl;
 
 	reading.close();
+}
+
+
+void BinaryReadingData(map <int, Group>& grupp, int& n, string filename) {
+
+	int groupnum;
+	string answer;
+	ifstream rf(filename, ios::in | ios::binary);
+
+	while (!rf.is_open())
+	{
+		system("cls");
+		cout << "Не удалось открыть файл!" << endl;
+		cout << "Ввести файл зайново? (yes,no)" << endl << endl;
+
+		cin >> answer;
+		if (answer == "yes") {
+			system("cls");
+			cout << "Введите название файла: ";
+			cin >> filename;
+			rf.open(filename);
+		}
+		break;
+	}
+
+	if (rf)
+	{
+		rf >> n;
+		Data newStudent;
+		boolean invFlag = 0;
+
+		/*d = (Data*)realloc(d, sizeof(Data) * n);*/
+
+		for (int i = 0; i < n; i++) {
+
+			rf >> groupnum;
+			rf >> newStudent._FIO.familiy;
+			rf >> newStudent._FIO.imy;
+			rf >> newStudent._FIO.otchestvo;
+
+
+			for (int i = 0; i < 5; i++)
+			{
+				rf >> newStudent._Date.marks[i];
+				if (newStudent._Date.marks[i] > 6 || newStudent._Date.marks[i] <= 0) {
+					cout << "Неправильные данные у студента: " << newStudent._FIO.familiy << endl;
+					invFlag = 1;
+				}
+			}
+
+			rf >> newStudent._Forma.budget;
+
+
+			if (newStudent._Forma.budget == 'b') {
+				//бюджет
+				rf >> newStudent._Stipendiy.summastipendii;
+			}
+			else if (newStudent._Forma.budget == 'k') {
+				//контракт
+				rf >> newStudent._Oplata.summaoplati;
+			}
+			else {
+				cout << "Неправильные данные у студента: " << newStudent._FIO.familiy << endl;
+				invFlag = 1;
+			}
+
+			if (invFlag) {
+				string line;
+				getline(rf, line);
+				getline(rf, line);
+				rf.clear();
+				while (!line.empty()) {
+					getline(rf, line);
+					rf.clear();
+				}
+
+				invFlag = 0;
+				newStudent = Data();
+				continue;
+			}
+
+			if (grupp.find(groupnum) == grupp.end()) {
+				Group g = { 1, new Data[1]{ newStudent } };
+				grupp.insert(pair<int, Group>(groupnum, g));
+			}
+			else {
+				AddToGroup(grupp.at(groupnum)._data, newStudent, grupp.at(groupnum).counter);
+				grupp.at(groupnum).counter++;
+			}
+
+		}
+
+
+		cout << "Данные считаны! " << endl;
+	}
+
+	rf.close();
 }
 
 
@@ -515,23 +498,23 @@ void DeletStudet(map <int, Group>& d, int& m, int& gruppNum) {
 	int _n;
 	cout << "Введите номер студента (от 1 до " << d.at(gruppNum).counter << "):";
 	cin >> _n;
-	_n--; //чтобы счёт был от 1, а не от 0
+	_n--;
 	system("cls");
 
 
 	if (_n >= 0 && _n < d.at(gruppNum).counter) {
 
-		//Временный массив
+		
 		Data* buf = new Data[d.at(gruppNum).counter];
 		
 		
 		Copy (buf, d.at(gruppNum)._data, d.at(gruppNum).counter);
 		
-		//Выделяем новую память
+		
 		--d.at(gruppNum).counter;
 		int q = 0;
 
-		//Заполняем данные, кроме не нужного 
+		
 		for (int i = 0; i < d.at(gruppNum).counter; i++) {
 			if (i != _n) {
 				d.at(gruppNum)._data[q] = buf[i];
@@ -561,10 +544,9 @@ void AddNewStudent(map <int, Group>& d, int& m, int& gruppNum) {
 	cin >> buf[d.at(gruppNum).counter]._FIO.familiy;
 	cin >> buf[d.at(gruppNum).counter]._FIO.imy;
 	cin >> buf[d.at(gruppNum).counter]._FIO.otchestvo;
-
+	
 	cout << "Введите оценки студента за последнюю сессию: ";
-	//if (buf[d.at(gruppNum).counter]._Date.AiG < 6 && buf[d.at(gruppNum).counter]._Date.AiG>0) {
-
+	
 	for (int i = 0; i < 5; i++)
 	{
 		cin >> buf[d.at(gruppNum).counter]._Date.marks[i];
@@ -586,14 +568,12 @@ void AddNewStudent(map <int, Group>& d, int& m, int& gruppNum) {
 
 		if (buf[d.at(gruppNum).counter]._Forma.budget == 'b') {
 			//бюджет
-
 			cout << "Введите размер стипендии: ";
 			cin >> buf[d.at(gruppNum).counter]._Stipendiy.summastipendii;
 		}
 
 		else {
 			//контракт
-
 			cout << "Введите размер оплаты образования: ";
 			cin >> buf[d.at(gruppNum).counter]._Oplata.summaoplati;
 		}
@@ -668,6 +648,24 @@ void DataSorting(Data *&d, int& n) {
 void Savingdata(map <int, Group>& d, int n, string filename) {
 
 	ofstream record(filename, ios::out);
+	string answer;
+	
+	while (!record.is_open())
+	{
+		system("cls");
+		cout << "Не удалось открыть файл!" << endl;
+		cout << "Ввести файл зайново? (yes,no)" << endl << endl;
+
+		cin >> answer;
+		if (answer == "yes") {
+			system("cls");
+			cout << "Введите название файла: ";
+			cin >> filename;
+			record.open(filename);
+		}
+		break;
+	}
+
 
 	if (record)
 	{
@@ -694,23 +692,19 @@ void Savingdata(map <int, Group>& d, int n, string filename) {
 
 				if (i < n - 1) {
 					if (j->second._data[i]._Forma.budget == 'b') {
-						//бюджет
 						record << j->second._data[i]._Stipendiy.summastipendii << endl << endl;;
 					}
 
 					else {
-						//контракт
 						record << j->second._data[i]._Oplata.summaoplati << endl << endl;
 					}
 				}
 				else {
 					if (j->second._data[i]._Forma.budget == 'b') {
-						//бюджет
 						record << j->second._data[i]._Stipendiy.summastipendii;
 					}
 
 					else {
-						//контракт
 						record << j->second._data[i]._Oplata.summaoplati;
 					}
 				}
@@ -723,6 +717,82 @@ void Savingdata(map <int, Group>& d, int n, string filename) {
 		cout << "Ошибка открытия файла!" << endl;
 
 	record.close();
+}
+
+
+void BinarySavingdata(map <int, Group>& d, int n, string filename) {
+
+	ofstream record(filename, ios::out | ios::binary);
+	string answer;
+
+	while (!record.is_open())
+	{
+		system("cls");
+		cout << "Не удалось открыть файл!" << endl;
+		cout << "Ввести файл зайново? (yes,no)" << endl << endl;
+
+		cin >> answer;
+		if (answer == "yes") {
+			system("cls");
+			cout << "Введите название файла: ";
+			cin >> filename;
+			record.open(filename);
+		}
+		break;
+	}
+
+
+	if (record)
+	{
+		record << n << endl;
+
+		for (map<int, Group>::iterator j = d.begin(); j != d.end(); j++) {
+
+
+			for (int i = 0; i < j->second.counter; i++) {
+
+				record << j->first << endl;
+				record << j->second._data[i]._FIO.familiy << endl;
+				record << j->second._data[i]._FIO.imy << endl;
+				record << j->second._data[i]._FIO.otchestvo << endl;
+
+				for (int mark = 0; mark < 5; mark++)
+				{
+					record << j->second._data[i]._Date.marks[mark] << endl;
+
+				}
+
+				record << j->second._data[i]._Forma.budget << endl;
+
+
+				if (i < n - 1) {
+					if (j->second._data[i]._Forma.budget == 'b') {
+						record << j->second._data[i]._Stipendiy.summastipendii << endl << endl;;
+					}
+
+					else {
+						record << j->second._data[i]._Oplata.summaoplati << endl << endl;
+					}
+				}
+				else {
+					if (j->second._data[i]._Forma.budget == 'b') {
+						record << j->second._data[i]._Stipendiy.summastipendii;
+					}
+
+					else {
+						record << j->second._data[i]._Oplata.summaoplati;
+					}
+				}
+			}
+		}
+		cout << "Данные записаны! " << endl;
+	}
+
+	else
+		cout << "Ошибка открытия файла!" << endl;
+
+	record.close();
+
 }
 
 
@@ -749,7 +819,7 @@ int main()
     Menu();
 
 	map <int, Group> grupp;
-	string answer;
+	string answer, tmp;
 	int _actions, counter,
 		amountofdata = 0;
 	string fileName;
@@ -764,20 +834,36 @@ int main()
 		case 1:
 
 			system("cls");
-
-			cout << "Ввод данных из файла.";
+			cout << "Ввод данных из бинарного файли или из текстогово? (bin, txt)" << endl;
+			cin >> tmp;
 			system("cls");
 
-			//ввод из файла
+			if (tmp == "bin") {
 
-			//cout << "Введите название файла: ";
-			//cin >> fileName;
-			ReadingData(grupp, amountofdata, "C:\\Users\\Alexey\\source\\repos\\курсовая\\students.txt");
+				cout << "Введите название файла: ";
+				cin >> fileName;
+
+				BinaryReadingData(grupp, amountofdata, fileName);
+
+				for (map<int, Group>::iterator j = grupp.begin(); j != grupp.end(); j++) {
+
+					DataSorting(j->second._data, j->second.counter);
+				}
+			}
+
+			else {
+			//ввод из файла
+			cout << "Введите название файла: ";
+			cin >> fileName;
+
+			ReadingData(grupp, amountofdata, fileName);
 
 			for (map<int, Group>::iterator j = grupp.begin(); j != grupp.end(); j++) {
 
 				DataSorting(j->second._data, j->second.counter);
+				}
 			}
+
 			system("pause");
 			system("cls");
 			Menu();
@@ -926,8 +1012,24 @@ int main()
 		case 6:
 
 			system("cls");
+			cout << "Ввод данных из бинарного файли или из текстогово? (bin, txt)" << endl;
+			cin >> tmp;
 
-			Savingdata(grupp, amountofdata, "C:\\Users\\Alexey\\source\\repos\\курсовая\\students2.txt");
+			if (tmp == "bin") {
+				system("cls");
+				cout << "Введите название файла: ";
+				cin >> fileName;
+				BinarySavingdata(grupp, amountofdata, fileName);
+			}
+
+			else {
+
+				system("cls");
+				cout << "Введите название файла: ";
+				cin >> fileName;
+				Savingdata(grupp, amountofdata, fileName);
+			}
+
 
 
 			system("pause");

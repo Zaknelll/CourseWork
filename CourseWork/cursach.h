@@ -11,6 +11,7 @@
 #include <map>
 #include<clocale>
 
+
 using namespace std;
 
 //структура ФИО
@@ -66,10 +67,8 @@ struct Group
 
 
 //функции
-//void DataEntery(Data *&d, int& n);
-//void AddData(map <int, Group>& d, int& m);
-
 void ReadingData(map <int, Group>& grupp, int& n, string filename);
+void BinaryReadingData(map <int, Group>& grupp, int& n, string filename);
 void PrintGroup(map <int, Group>& d);
 void AddNewGroup(map <int, Group>& d, int& groupNum);
 void PrintStudents(map <int, Group>& d, int& n, int& gruppNum);
@@ -79,6 +78,7 @@ void StudetnChange(map <int, Group>& d, int& gruppNum);
 void DeletStudet(map <int, Group>& d, int& m, int& gruppNum);
 void DeleteGroup(map <int, Group>& d);
 void Savingdata(map <int, Group>& d, int n, string filename);
+void BinarySavingdata(map <int, Group>& d, int n, string filename);
 void PrintAllInfo(map <int, Group>& d, int &n);
 
 void Copy(Data*& d_n, Data*& d_o, int n);

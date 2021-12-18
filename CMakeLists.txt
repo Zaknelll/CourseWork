@@ -3,7 +3,7 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
-project ("курсовая")
+project ("CourseWork")
 
 # Включите подпроекты.
-add_subdirectory ("курсовая")
+add_subdirectory ("CourseWork")

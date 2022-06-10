@@ -9,8 +9,7 @@
 #include <fstream>
 #include <Windows.h>
 #include <map>
-#include<clocale>
-
+#include <clocale>
 
 using namespace std;
 

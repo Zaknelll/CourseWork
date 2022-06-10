@@ -41,7 +41,6 @@ int SubMenu(map <int, Group>& grupp, int& amountofdata, int &gruppNum) {
 
 	Menu2();
 
-
 	while (_stateMenu2 != 0)
 	{
 		switch (_stateMenu2) {

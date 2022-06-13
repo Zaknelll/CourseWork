@@ -73,6 +73,7 @@ void AddNewGroup(map <int, Group>& d, int& groupNum);
 void PrintStudents(map <int, Group>& d, int& n, int& gruppNum);
 void AddNewStudent(map <int, Group>& d, int& m, int& gruppNum);
 void DataSorting(Data*& d, int& n);
+void Stependia_Sorting(Data*& d, int& n);
 void StudetnChange(map <int, Group>& d, int& gruppNum);
 void DeletStudet(map <int, Group>& d, int& m, int& gruppNum);
 void DeleteGroup(map <int, Group>& d);

@@ -16,6 +16,7 @@ void Menu()
 	cout << "5 - Удаление группы." << endl;
 	cout << "6 - Сохранение в файл." << endl;
 	cout << "7 - Вывод данных в консоль." << endl;
+	cout << "8 - Сортировка по стипендии." << endl;
 	cout << "0 - Выход из программы." << endl;
 	cout << "----------------" << endl;
 	cout << "Ваш выбор: ";
@@ -628,6 +629,34 @@ void DeleteGroup(map <int, Group>& d) {
 }
 
 
+void Stependia_Sorting(Data*& d, int& n) {
+
+	Data buf;
+
+
+	for (int i = 0; i < n; i++) {
+		for (int j = i + 1; j < n; j++) {
+			if (d[j]._Stipendiy.summastipendii > d[i]._Stipendiy.summastipendii) {
+				buf = d[i];
+				d[i] = d[j];
+				d[j] = buf;
+			}
+		}
+	}
+
+
+	for (int i = 0; i < n; i++) {
+		for (int j = i + 1; j < n; j++) {
+			if (strcmp(d[i]._FIO.familiy, d[j]._FIO.familiy) > 0) {
+				buf = d[i];
+				d[i] = d[j];
+				d[j] = buf;
+			}
+		}
+	}
+}
+
+
 void DataSorting(Data *&d, int& n) {
 	
 	Data buf;
@@ -1048,6 +1077,22 @@ int main()
 
 			else
 				cout << "Группы не найдены!" << endl;
+
+			system("pause");
+			system("cls");
+			Menu();
+			break;
+
+		case 8:
+
+			system("cls");
+
+			for (map<int, Group>::iterator j = grupp.begin(); j != grupp.end(); j++) {
+
+				Stependia_Sorting(j->second._data, j->second.counter);
+			}
+
+			cout << "Всё отсортированно!" << endl;
 
 			system("pause");
 			system("cls");
